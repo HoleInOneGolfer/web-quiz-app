@@ -1,16 +1,16 @@
 // Set background images
-START.style.backgroundImage = SHEET_DATA[0].bgImage
-	? `url('/static/images/${SHEET_DATA[0].bgImage}')`
-	: `url('/static/images/placeholders/bg-placeholder.jpg')`;
-INFO.style.backgroundImage = SHEET_DATA[0].bgImage
-	? `url('/static/images/${SHEET_DATA[0].bgImage}')`
-	: `url('/static/images/placeholders/bg-placeholder.jpg')`;
-MAIN.style.backgroundImage = SHEET_DATA[0].bgImage
-	? `url('/static/images/${SHEET_DATA[0].bgImage}')`
-	: `url('/static/images/placeholders/bg-placeholder.jpg')`;
-FINISH.style.backgroundImage = SHEET_DATA[0].bgImage
-	? `url('/static/images/${SHEET_DATA[0].bgImage}')`
-	: `url('/static/images/placeholders/bg-placeholder.jpg')`;
+function getImageUrl(path) {
+	return `${window.location.origin}${path.startsWith("/") ? "" : "/"}${path}`;
+}
+
+const bgImage = SHEET_DATA[0].bgImage
+	? getImageUrl(`/static/images/${SHEET_DATA[0].bgImage}`)
+	: getImageUrl("/static/images/placeholders/bg-placeholder.jpg");
+
+START.style.backgroundImage = `url('${bgImage}')`;
+INFO.style.backgroundImage = `url('${bgImage}')`;
+MAIN.style.backgroundImage = `url('${bgImage}')`;
+FINISH.style.backgroundImage = `url('${bgImage}')`;
 
 // Set logo
 LOGO.innerHTML = `<img src="/static/images/logo.png" alt="Logo">`;
