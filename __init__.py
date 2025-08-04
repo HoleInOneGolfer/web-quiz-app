@@ -3,8 +3,9 @@ from flask import Flask, render_template, request
 
 from data_manager import *
 
-QUIZ_EXCEL_FILE = os.path.join(os.getcwd(), 'data', 'quiz.xlsx')
+QUIZ_EXCEL_FILE = os.path.join(os.getcwd(), 'data', 'quizzes.xlsx')
 RESULTS_EXCEL_FILE = os.path.join(os.getcwd(), 'data', 'results.xlsx')
+print(QUIZ_EXCEL_FILE, RESULTS_EXCEL_FILE)
 
 QUIZ_DF = load_excel_data(QUIZ_EXCEL_FILE)
 
@@ -97,6 +98,9 @@ def handle_exception(e):
         'status': str(e),
         'stack': e.__traceback__
     }
+    # Log the error information for debugging
+    app.logger.error(f"An error occurred: {error_info['status']}", exc_info=e)
+
     return render_template('error.html.jinja', error=error_info, title='Error'), 500
 
 if __name__ == '__main__':
