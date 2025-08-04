@@ -2,7 +2,6 @@ import os
 
 from flask import Flask
 
-
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -26,5 +25,16 @@ def create_app(test_config=None):
     @app.route('/')
     def index():
         return "OK"
+
+    from . import quiz
+    app.register_blueprint(quiz.bp)
+
+    #@app.route('/send_score', methods=['POST'])
+
+    from . import debug
+    app.register_blueprint(debug.bp)
+
+    app.register_error_handler(Exception, lambda e: (f"An error occurred: {str(e)}", 500))
+
 
     return app
