@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request
 
-from .data_manager import *
+from .dataManager import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, 'data')

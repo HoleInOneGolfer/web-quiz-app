@@ -1,0 +1,121 @@
+{% extends "base.html.jinja" %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+
+<!--Preload Background Images-->
+{% for image in quiz_unique_bg_images %}
+<link rel="preload" as="image" href="{{ url_for('static', filename='images/' + image) }}">
+{% endfor %}
+<!--Preload Hint Images-->
+{% for image in quiz_unique_hint_images %}
+<link rel="preload" as="image" href="{{ url_for('static', filename='images/' + image) }}">
+{% endfor %}
+<!--Preload Logo Image-->
+<link rel="preload" as="image" href="{{ url_for('static', filename='images/logo.png') }}">
+<!--Preload Placeholder Images-->
+<link rel="preload" as="image" href="{{ url_for('static', filename='images/placeholders/bg-placeholder.jpg') }}">
+<link rel="preload" as="image"
+    href="{{ url_for('static', filename='images/placeholders/Hint-Person-Placeholder.png') }}">
+
+
+<!--Scripts-->
+<script>
+    // Stop user from being able to scroll
+    addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
+    // Stop user from going back by swiping (TODO)
+    // addEventListener("touchstart", (e) => { if (e.pageX > 10 && e.pageX < window.innerWidth - 10) { return; } e.preventDefault(); }, { passive: false });
+</script>
+<!--Custom Element Script-->
+<script src="{{ url_for('static', filename='scripts/modules/ELEMENTS.js') }}" defer></script>
+
+<div style="display: none;">
+    <audio id="correct_Audio" controls>
+        <source src="{{ url_for('static', filename='audio/Glass-freesfx.com.mp3') }}" type="audio/mpeg">
+    </audio>
+    <audio id="incorrect_Audio" controls>
+        <source src="{{ url_for('static', filename='audio/Squish-freesfx.com.mp3') }}" type="audio/mpeg">
+    </audio>
+    <audio id="music_Audio" controls loop>
+        <source src="{{ url_for('static', filename='audio/Music-freesfx.com.mp3') }}" type="audio/mpeg">
+    </audio>
+</div>
+<span id="sheet-data" style="display: none;">{{ quiz_data_json }}</span>
+
+<main id=" root" title="main" class="contrast-bg">
+    <quiz-start>
+        <quiz-title>{{ title }}</quiz-title>
+        <p style="font-size: 7vh">How much do you know?</p>
+        <quiz-start-button class="button animate-button" style="width: 50%;"
+            onclick="setStateInfo()">Begin!</quiz-start-button>
+    </quiz-start>
+
+    <quiz-info>
+        <p style="font-size: 2.5ch; width: 70%; background-color: #0005;">
+            You may have more than one chance to answer each question correctly.
+            <br>
+            If your answer turns red, it’s not correct. Try again.
+            <br>
+            If your answer turns green, great job! Move to the next question!
+        </p>
+        <quiz-start-button class="button animate-button" style="width: 50%;"
+            onclick="setStateMain();">Continue</quiz-start-button>
+    </quiz-info>
+
+    <quiz-main>
+        <quiz-title>{{ title }}</quiz-title>
+        <quiz-question>What?</quiz-question>
+        <quiz-answers>
+            <quiz-answer class="button text_1495" onclick="answerEvent(0)">A</quiz-answer>
+            <quiz-answer class="button text_233" onclick="answerEvent(1)">B</quiz-answer>
+            <quiz-answer class="button text_396" onclick="answerEvent(2)">C</quiz-answer>
+            <quiz-answer class="button text_2995" onclick="answerEvent(3)">D</quiz-answer>
+        </quiz-answers>
+
+        <quiz-status>
+            <quiz-tries>Tries: 3/3</quiz-tries>
+            <quiz-current-question>10/10</quiz-current-question>
+            <quiz-score>100%</quiz-score>
+        </quiz-status>
+
+        <quiz-hint>
+            <div>
+                <p style="padding: 0; margin: 0;">Press me for a hint</p>
+                <quiz-hint-toggle onclick="toggleHint()" style="padding: 0; margin: 0;"></quiz-hint-toggle>
+            </div>
+            <quiz-hint-text class="hidden">?</quiz-hint-text>
+        </quiz-hint>
+
+        <quiz-nav>
+            <quiz-restart class="" onclick="setStateStart()">Restart</quiz-restart>
+            <quiz-next class="" onclick="nextQuestion()">Next</quiz-next>
+        </quiz-nav>
+    </quiz-main>
+
+    <quiz-finish>
+        <quiz-title>{{ title }}</quiz-title>
+        <quiz-results>
+            <h2>Congratulations</h2>
+            <p>You have completed the quiz!</p>
+            <p>Your score is:</p>
+        </quiz-results>
+        <quiz-restart class="button" onclick="setStateStart()">
+            Restart!
+        </quiz-restart>
+    </quiz-finish>
+    <quiz-audio-toggle class="material-symbols-outlined button" onclick="toggleAudio()">volume_up
+    </quiz-audio-toggle>
+    <quiz-logo></quiz-logo>
+</main>
+
+<!--Quiz Main Script-->
+<script src="{{ url_for('static', filename='scripts/modules/DOM.js') }} "></script>
+<script src="{{ url_for('static', filename='scripts/modules/DATA.js') }} "></script>
+<script src="{{ url_for('static', filename='scripts/quiz.js') }} " defer></script>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

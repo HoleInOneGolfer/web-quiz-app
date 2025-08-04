@@ -1,6 +1,0 @@
-{% extends "base.html.jinja" %}
-{% block content %}
-<h1>Error: {{ error.status }}</h1>
-<p>{{ error.stack }}</p>
-<a href="{{ url_for('index') }}">Go Back</a>
-{% endblock content %}

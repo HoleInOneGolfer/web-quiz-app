@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!--Misc Meta Tags-->
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="Quiz Server - A simple quiz application" />
+        <meta name="keywords" content="quiz, application, quiz server, quiz app" />
+        <meta name="author" content="HoleInOneStudios, Benjamin Bowles" />
+
+        <!--Apple stuff-->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <!--Stop User from being able to zoom in and out-->
+        <meta name="viewport" content="user-scalable=no, width=device-width" />
+
+        <!--Manifest-->
+        <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
+
+        <!--Title-->
+        <title>{{ title }}</title>
+
+        <!--Favicon-->
+        <link rel="icon" href="{{ url_for('static', filename='images/placeholders/icon.png') }}" type="image/png" />
+
+        <!--Stylesheets-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+        <!--Scripts-->
+        <script src="{{ url_for('static', filename='scripts/jquery-3.6.1.slim.min.js')}}"></script>
+
+    </head>
+
+    <body>
+        {% block header %}
+        <header>
+            <img src="{{ url_for('static', filename='images/placeholders/icon.png') }}" alt="Quiz Server Logo" />
+            <h1>{{ title }}</h1>
+
+            <style>
+                html {
+                    /* Set the user's ability to select text to "on" by default */
+                    user-select: text;
+                    -webkit-user-select: text;
+                    -ms-user-select: text;
+                }
+            </style>
+        </header>
+        {% endblock %}
+        {% block content %}{% endblock %}
+        {% block footer %}
+        <br>
+        <span style="text-decoration: line-through; text-decoration-thickness: 2px;">
+            Link to source code on
+            <a href="https://github.com/HoleInOneStudios/samsat-quiz-app" target="_blank">GitHub</a>
+        </span>
+        <br>
+        <span>
+            Copyright &copy; 2025
+            <a href="https://github.com/HoleInOneStudios" target="_blank">HoleInOneStudios</a>
+        </span>
+        <br>
+        <span>
+            Created by
+            <a href="https://github.com/HoleInOneGolfer" target="_blank">Benjamin Bowles</a>
+        </span>
+        </footer>
+        {% endblock %}
+    </body>
