@@ -1,0 +1,10 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<main>
+    {% for quiz in quiz_list %}
+    <a href="{{ url_for('quiz.get_quiz', quiz_name=quiz) }}">{{ quiz }}</a><br>
+    {% endfor %}
+</main>
+
+{% endblock %}
