@@ -1,42 +1,36 @@
 {% extends "base.jinja" %}
 
-{% block header %}{% endblock %}
-
 {% block content %}
-<main class="fill-screen">
-    <h1 class="quiz-title">
-        <img src="{{ url_for('static', filename='./images/placeholders/icon.png')}}" alt="Quiz Icon" />
-        {{ quiz_name }}
-    </h1>
-    <div class="quiz-container">
-        <div class="info-container">
-            <span id="question-counter" class="info-text">Question: xx/xx</span>
-            <span id="attempt-counter" class="info-text">Attempts: x/x</span>
-            <span id="score-counter" class="info-text">Score: xxx</span>
+<main class="">
+    <div id="quiz-container">
+        <div id="info-container">
+            <span id="question-counter">Question: xx/xx</span>
+            <span id="attempt-counter">Attempts: x/x</span>
+            <span id="score-counter">Score: xxx</span>
         </div>
 
-        <h2 id="question-text" class="question-text">Question?</h2>
-        <div class="answer-button-container">
-            <button id="answer-1" class="answer-button" onclick="answer(1)">Answer 1</button>
-            <button id="answer-2" class="answer-button" onclick="answer(2)">Answer 2</button>
-            <button id="answer-3" class="answer-button" onclick="answer(3)">Answer 3</button>
-            <button id="answer-4" class="answer-button" onclick="answer(4)">Answer 4</button>
+        <h2 id="question-text">Question?</h2>
+        <div id="answer-container">
+            <button id="answer-1" onclick="answer(1)">Answer 1</button>
+            <button id="answer-2" onclick="answer(2)">Answer 2</button>
+            <button id="answer-3" onclick="answer(3)">Answer 3</button>
+            <button id="answer-4" onclick="answer(4)">Answer 4</button>
         </div>
 
-        <span id="hint-text" class="hint-text invisible">Hint text</span>
+        <span id="hint-text" class="invisible">Hint text</span>
 
-        <div class="controls-container">
-            <button id="restart-button" class="control-button" onclick="restartQuiz()">
+        <div id="controls-container">
+            <button id="restart-button" onclick="restartQuiz()">
                 <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/restart.svg')}}" alt="Exit" />
                 Restart
             </button>
 
-            <button id="hint-button" class="control-button" onclick="enableHint()">
+            <button id="hint-button" onclick="enableHint()">
                 <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/hint.svg')}}" alt="Hint" />
                 Hint
             </button>
 
-            <button id="next-button" class="control-button" onclick="nextQuestion()">
+            <button id="next-button" onclick="nextQuestion()">
                 <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/next.svg')}}" alt="Next" />
                 Next
             </button>
@@ -213,6 +207,8 @@
         if (CURRENT_QUESTION >= TOTAL_QUESTIONS) {
             CURRENT_QUESTION = CURRENT_QUESTION % (TOTAL_QUESTIONS + 1);
             submitResults();
+
+            alert(`Quiz completed! Your score: ${Math.round(SCORE / TOTAL_QUESTIONS * 100)}% \n Your score has been submited. Restarting quiz...`);
 
             restartQuiz();
         }

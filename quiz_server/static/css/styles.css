@@ -65,6 +65,11 @@
 	opacity: 0;
 }
 
+.fill-screen {
+	height: 100vh;
+	width: 100vw;
+}
+
 .correct {
 	color: var(--correct-color);
 	font-weight: bold;
@@ -114,7 +119,6 @@ main {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 
 	background-size: cover;
 	background-position: center;
@@ -132,75 +136,60 @@ footer {
 
 /* Quiz Styles */
 
-.fill-screen {
-	height: 100vh;
-	width: 100vw;
-}
-
-.quiz-container {
+#quiz-container {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
 }
 
-.quiz-title {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-
-	img {
-	}
+#question-text {
 }
 
-.question-text {
-}
-
-.hint-text {
+#hint-text {
 	transition: opacity 0.25s ease-in-out;
 }
 
-.info-container {
+#info-container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-evenly;
 }
 
-.controls-container {
+#controls-container {
 	display: flex;
 	flex-direction: row;
 	align-items: last baseline;
 	justify-content: space-evenly;
-}
 
-.control-button {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	button {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 
-	img {
+		img {
+		}
 	}
 }
 
-.answer-button-container {
+#answer-container {
 	counter-reset: answer;
 
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-}
 
-.answer-button {
-	flex-grow: 2;
-	flex-shrink: 1;
-	flex-basis: 45%;
+	button {
+		flex-grow: 2;
+		flex-shrink: 1;
+		flex-basis: 45%;
 
-	text-align: left;
-}
+		text-align: left;
+	}
 
-.answer-button::before {
-	content: counter(answer) ". ";
-	counter-increment: answer;
+	button::before {
+		content: counter(answer) ". ";
+		counter-increment: answer;
+	}
 }
