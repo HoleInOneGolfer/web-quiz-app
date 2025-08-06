@@ -25,7 +25,8 @@
     <body>
         {% block header %}
         <header>
-            <img src="{{ url_for('static', filename='images/placeholders/icon.png') }}" alt="Quiz Icon"">
+            <img src="{{ url_for('static', filename='images/placeholders/icon.png') }}" alt="Quiz Icon"
+                id="header-icon">
             <h1>{{ title }}</h1>
         </header>
         {% endblock %}
@@ -49,9 +50,9 @@
                 Created by
                 <a href="https://github.com/HoleInOneGolfer" target="_blank">Benjamin Bowles</a>
             </span>
-            </footer>
-            {% endblock %}
-            {% block scripts %}{% endblock %}
+        </footer>
+        {% endblock %}
+        {% block scripts %}{% endblock %}
     </body>
 
 </html>

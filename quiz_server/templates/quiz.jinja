@@ -1,7 +1,7 @@
 {% extends "base.jinja" %}
 
 {% block content %}
-<main class="">
+<main id="main">
     <div id="quiz-container">
         <div id="info-container">
             <span id="question-counter">Question: xx/xx</span>
@@ -45,8 +45,11 @@
 <script>
     let QUIZ_NAME = "{{ quiz_name }}";
     let QUIZ_DATA = {{ quiz_data | tojson }};
+    let STATIC_URL = "{{ url_for('static', filename='') }}";
 
     const ELEMENTS = {
+        body: document.body,
+        headerIcon: document.getElementById('header-icon'),
         questionCounter: document.getElementById('question-counter'),
         attemptCounter: document.getElementById('attempt-counter'),
         scoreCounter: document.getElementById('score-counter'),
@@ -82,6 +85,8 @@
         ATTEMPTS = 0;
 
         disableHint();
+        updateIcon();
+        updateBackground();
         setNextMode(!CORRECT);
         updateAnswers();
         updateInfoText();
@@ -89,6 +94,29 @@
     }
 
     // === UPDATE Functions === //
+
+    function updateIcon() {
+        QUESTION_ICON = QUIZ_DATA[CURRENT_QUESTION - 1].logo_image;
+        if (QUESTION_ICON) {
+            ELEMENTS.headerIcon.src = STATIC_URL + "images/" + QUESTION_ICON;
+        }
+        else {
+            ELEMENTS.headerIcon.src = STATIC_URL + "images/placeholders/icon.png";
+            ELEMENTS.headerIcon.alt = "Quiz Icon";
+        }
+    }
+
+    function updateBackground() {
+        QUESTION_BACKGROUND = QUIZ_DATA[CURRENT_QUESTION - 1].bg_image;
+        if (QUESTION_BACKGROUND) {
+            ELEMENTS.body.style.backgroundImage = `url('${STATIC_URL}images/${QUESTION_BACKGROUND}')`;
+            ELEMENTS.body.style.backgroundSize = "cover";
+            ELEMENTS.body.style.backgroundPosition = "center";
+        }
+        else {
+            ELEMENTS.body.style.backgroundImage = "none";
+        }
+    }
 
     function updateInfoText() {
         ELEMENTS.questionCounter.textContent = `Question: ${CURRENT_QUESTION}/${TOTAL_QUESTIONS}`;
