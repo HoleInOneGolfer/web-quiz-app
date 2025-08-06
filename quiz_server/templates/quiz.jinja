@@ -4,9 +4,21 @@
 <main id="main">
     <div id="quiz-container">
         <div id="info-container">
-            <span id="question-counter">Question: xx/xx</span>
-            <span id="attempt-counter">Attempts: x/x</span>
-            <span id="score-counter">Score: xxx</span>
+            <p>
+                Question
+                <br />
+                <span id="question-counter">xx/xx</span>
+            </p>
+            <p>
+                Attempts
+                <br />
+                <span id="attempt-counter">x/x</span>
+            </p>
+            <p>
+                Score
+                <br />
+                <span id="score-counter">xxx</span>
+            </p>
         </div>
 
         <h2 id="question-text">Question?</h2>
@@ -119,9 +131,9 @@
     }
 
     function updateInfoText() {
-        ELEMENTS.questionCounter.textContent = `Question: ${CURRENT_QUESTION}/${TOTAL_QUESTIONS}`;
-        ELEMENTS.attemptCounter.textContent = `Attempts: ${ATTEMPTS}/${TOTAL_ATTEMPTS}`;
-        ELEMENTS.scoreCounter.textContent = `Score: ${Math.round(SCORE / TOTAL_QUESTIONS * 100)}%`;
+        ELEMENTS.questionCounter.textContent = `${CURRENT_QUESTION}/${TOTAL_QUESTIONS}`;
+        ELEMENTS.attemptCounter.textContent = `${ATTEMPTS}/${TOTAL_ATTEMPTS}`;
+        ELEMENTS.scoreCounter.textContent = `${Math.round(SCORE / TOTAL_QUESTIONS * 100)}%`;
     }
 
     function updateQuestionText() {
@@ -270,9 +282,11 @@
 
     function answer(answerNumber) {
         if (ATTEMPTS < TOTAL_ATTEMPTS) {
-            ATTEMPTED_ANSWERS.push(answerNumber);
-            ATTEMPTS++;
             if (!CORRECT) {
+                if (!ATTEMPTED_ANSWERS.includes(answerNumber)) {
+                    ATTEMPTED_ANSWERS.push(answerNumber);
+                    ATTEMPTS++;
+                }
                 CORRECT = checkAnswer(answerNumber, CURRENT_QUESTION);
                 if (CORRECT) {
                     SCORE++;

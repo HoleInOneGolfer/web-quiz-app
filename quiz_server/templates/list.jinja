@@ -5,7 +5,7 @@
     <ul>
         {% for quiz in quiz_list %}
         <li>
-            <a href="{{ url_for('quiz.get_quiz', quiz_name=quiz) }}">{{ quiz }}</a><br>
+            <a href="{{ url_for('quiz.get_quiz', quiz_name=quiz) }}">{{ quiz }}</a>
         </li>
         {% endfor %}
     </ul>
