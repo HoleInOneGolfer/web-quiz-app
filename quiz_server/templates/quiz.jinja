@@ -1,0 +1,278 @@
+{% extends "base.jinja" %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<main class="fill-screen">
+    <h1 class="quiz-title">
+        <img src="{{ url_for('static', filename='./images/placeholders/icon.png')}}" alt="Quiz Icon" />
+        {{ quiz_name }}
+    </h1>
+    <div class="quiz-container">
+        <div class="info-container">
+            <span id="question-counter" class="info-text">Question: xx/xx</span>
+            <span id="attempt-counter" class="info-text">Attempts: x/x</span>
+            <span id="score-counter" class="info-text">Score: xxx</span>
+        </div>
+
+        <h2 id="question-text" class="question-text">Question?</h2>
+        <div class="answer-button-container">
+            <button id="answer-1" class="answer-button" onclick="answer(1)">Answer 1</button>
+            <button id="answer-2" class="answer-button" onclick="answer(2)">Answer 2</button>
+            <button id="answer-3" class="answer-button" onclick="answer(3)">Answer 3</button>
+            <button id="answer-4" class="answer-button" onclick="answer(4)">Answer 4</button>
+        </div>
+
+        <span id="hint-text" class="hint-text invisible">Hint text</span>
+
+        <div class="controls-container">
+            <button id="restart-button" class="control-button" onclick="restartQuiz()">
+                <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/restart.svg')}}" alt="Exit" />
+                Restart
+            </button>
+
+            <button id="hint-button" class="control-button" onclick="enableHint()">
+                <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/hint.svg')}}" alt="Hint" />
+                Hint
+            </button>
+
+            <button id="next-button" class="control-button" onclick="nextQuestion()">
+                <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/next.svg')}}" alt="Next" />
+                Next
+            </button>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block scripts %}
+<script>
+    let QUIZ_NAME = "{{ quiz_name }}";
+    let QUIZ_DATA = {{ quiz_data | tojson }};
+
+    const ELEMENTS = {
+        questionCounter: document.getElementById('question-counter'),
+        attemptCounter: document.getElementById('attempt-counter'),
+        scoreCounter: document.getElementById('score-counter'),
+        questionText: document.getElementById('question-text'),
+        answer1: document.getElementById('answer-1'),
+        answer2: document.getElementById('answer-2'),
+        answer3: document.getElementById('answer-3'),
+        answer4: document.getElementById('answer-4'),
+        hintText: document.getElementById('hint-text'),
+        nextButton: document.getElementById('next-button'),
+    }
+
+    let CURRENT_QUESTION = 1;
+    let TOTAL_QUESTIONS = QUIZ_DATA.length;
+
+    let ATTEMPTS = 0;
+    let TOTAL_ATTEMPTS = 0;
+    let ATTEMPTED_ANSWERS = [];
+
+    let HINT_USED = false;
+
+    let CORRECT = false;
+    let SCORE = 0;
+
+    let QUESTION_RESULTS = []
+
+    // === RESET Functions === //
+
+    function reset() {
+        CORRECT = false;
+        HINT_USED = false;
+        ATTEMPTED_ANSWERS = [];
+        ATTEMPTS = 0;
+
+        disableHint();
+        setNextMode(!CORRECT);
+        updateAnswers();
+        updateInfoText();
+        updateQuestionText();
+    }
+
+    // === UPDATE Functions === //
+
+    function updateInfoText() {
+        ELEMENTS.questionCounter.textContent = `Question: ${CURRENT_QUESTION}/${TOTAL_QUESTIONS}`;
+        ELEMENTS.attemptCounter.textContent = `Attempts: ${ATTEMPTS}/${TOTAL_ATTEMPTS}`;
+        ELEMENTS.scoreCounter.textContent = `Score: ${Math.round(SCORE / TOTAL_QUESTIONS * 100)}%`;
+    }
+
+    function updateQuestionText() {
+        ELEMENTS.questionText.textContent = QUIZ_DATA[CURRENT_QUESTION - 1].question_text;
+        ELEMENTS.hintText.textContent = QUIZ_DATA[CURRENT_QUESTION - 1].hint;
+
+        ELEMENTS.answer1.textContent = QUIZ_DATA[CURRENT_QUESTION - 1].answer_1;
+        ELEMENTS.answer2.textContent = QUIZ_DATA[CURRENT_QUESTION - 1].answer_2;
+        ELEMENTS.answer3.textContent = QUIZ_DATA[CURRENT_QUESTION - 1].answer_3;
+        ELEMENTS.answer4.textContent = QUIZ_DATA[CURRENT_QUESTION - 1].answer_4;
+    }
+
+    function updateAnswer(answerNumber) {
+        ELEMENTS[`answer${answerNumber}`].classList.remove("correct", "incorrect", "hidden");
+
+        if (!QUIZ_DATA[CURRENT_QUESTION - 1][`answer_${answerNumber}`]) {
+            ELEMENTS[`answer${answerNumber}`].classList.add("hidden");
+        }
+    }
+
+    function updateAnswers() {
+        answers = validAnswers(CURRENT_QUESTION);
+
+        TOTAL_ATTEMPTS = answers.length - 1;
+
+        updateAnswer(1);
+        updateAnswer(2);
+        updateAnswer(3);
+        updateAnswer(4);
+    }
+
+    // === QUIZ LOGIC Functions === //
+
+    function correctAnswers(question_number) {
+        correct_answers = []
+        if (QUIZ_DATA[question_number - 1].answer_1_correct)
+            correct_answers.push(1);
+        if (QUIZ_DATA[question_number - 1].answer_2_correct)
+            correct_answers.push(2);
+        if (QUIZ_DATA[question_number - 1].answer_3_correct)
+            correct_answers.push(3);
+        if (QUIZ_DATA[question_number - 1].answer_4_correct)
+            correct_answers.push(4);
+
+        return correct_answers;
+    }
+
+    function validAnswers(question_number) {
+        valid_answers = []
+        if (QUIZ_DATA[question_number - 1].answer_1)
+            valid_answers.push(1);
+        if (QUIZ_DATA[question_number - 1].answer_2)
+            valid_answers.push(2);
+        if (QUIZ_DATA[question_number - 1].answer_3)
+            valid_answers.push(3);
+        if (QUIZ_DATA[question_number - 1].answer_4)
+            valid_answers.push(4);
+
+        return valid_answers;
+    }
+
+    function checkAnswer(answer_number, question_number) {
+        correct_answers = correctAnswers(question_number);
+
+        return correct_answers.includes(answer_number);
+    }
+
+    function getResults() {
+        results = {
+            date: new Date().toISOString(),
+            quiz_name: QUIZ_NAME,
+            total_score: SCORE,
+            total_questions: TOTAL_QUESTIONS,
+        }
+
+        for (let i = 0; i < QUESTION_RESULTS.length; i++) {
+            for (const [key, value] of Object.entries(QUESTION_RESULTS[i])) {
+                results[key] = value;
+            }
+        }
+
+        return results;
+    }
+
+    function submitResults() {
+        session_results = getResults();
+
+        fetch('/submit_session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(session_results)
+        }).catch((error) => {
+            console.error('Error submitting session:', error);
+        });
+
+    }
+
+    // === BUTTON Functions === //
+
+    function nextQuestion() {
+        results = {}
+        results[`question_${CURRENT_QUESTION}_correct`] = CORRECT;
+        results[`question_${CURRENT_QUESTION}_hint_used`] = HINT_USED
+        results[`question_${CURRENT_QUESTION}_attempts`] = ATTEMPTS;
+        results[`question_${CURRENT_QUESTION}_attempted_answers`] = ATTEMPTED_ANSWERS.join(", ");
+
+        QUESTION_RESULTS.push(results);
+
+        if (CURRENT_QUESTION >= TOTAL_QUESTIONS) {
+            CURRENT_QUESTION = CURRENT_QUESTION % (TOTAL_QUESTIONS + 1);
+            submitResults();
+
+            restartQuiz();
+        }
+        else if (CURRENT_QUESTION < TOTAL_QUESTIONS + 1) {
+            CURRENT_QUESTION++;
+
+            reset();
+        }
+    }
+
+    function restartQuiz() {
+        QUESTION_RESULTS = [];
+        CURRENT_QUESTION = 1;
+        SCORE = 0;
+
+        reset();
+    }
+
+    function enableHint() {
+        ELEMENTS.hintText.classList.remove("invisible");
+        HINT_USED = true;
+    }
+
+    function disableHint() {
+        ELEMENTS.hintText.classList.add("invisible");
+    }
+
+    function setNextMode(mode = !ELEMENTS.nextButton.disabled) {
+        ELEMENTS.nextButton.disabled = mode;
+    }
+
+    function answer(answerNumber) {
+        if (ATTEMPTS < TOTAL_ATTEMPTS) {
+            ATTEMPTED_ANSWERS.push(answerNumber);
+            ATTEMPTS++;
+            if (!CORRECT) {
+                CORRECT = checkAnswer(answerNumber, CURRENT_QUESTION);
+                if (CORRECT) {
+                    SCORE++;
+                    setNextMode(!CORRECT);
+                    ELEMENTS[`answer${answerNumber}`].classList.add("correct");
+                }
+                else {
+                    ELEMENTS[`answer${answerNumber}`].classList.add("incorrect");
+                }
+            }
+        }
+        if (ATTEMPTS > TOTAL_ATTEMPTS - 1) {
+            setNextMode(false);
+
+            correct_answers = correctAnswers(CURRENT_QUESTION);
+            for (let i = 0; i < correct_answers.length; i++) {
+                ELEMENTS[`answer${correct_answers[i]}`].classList.add("correct");
+            }
+        }
+
+        updateInfoText();
+    }
+
+    // === START QUIZ === //
+    restartQuiz();
+</script>
+{% endblock %}

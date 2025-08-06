@@ -1,34 +1,46 @@
-from doctest import master
-from flask import Blueprint, current_app, url_for
+from flask import Blueprint, current_app, render_template, request, session
 import pandas as pd
 import os
 
-bp = Blueprint('quiz', __name__, url_prefix='/quiz')
+bp = Blueprint('quiz', __name__)
 
 # === Endpoints === #
 
 @bp.route('/', methods=['GET'])
 def list_quizzes():
-    return (f"List of quizzes", 200)
+    quiz_data = pd.read_excel(current_app.config['QUIZ_EXCEL_FILE'])
+    quiz_list = pd.unique(quiz_data['quiz_name']).tolist()
+    return render_template('list.jinja', title="Quiz List", quiz_list=quiz_list)
 
-@bp.route('/<string:quiz_name>', methods=['GET'])
+@bp.route('/quiz/<quiz_name>', methods=['GET'])
 def get_quiz(quiz_name):
-    return (f"Quiz: {quiz_name}", 200)
+    quiz_data = pd.read_excel(current_app.config['QUIZ_EXCEL_FILE'])
+    quiz_data = quiz_data[quiz_data['quiz_name'] == quiz_name]
+    quiz_data = quiz_data.to_dict(orient='records')
+    return  render_template('quiz.jinja', title=quiz_name, quiz_name=quiz_name, quiz_data=quiz_data)
 
 @bp.route('/submit_session', methods=['POST'])
 def submit_session():
+    session_data = request.get_json()
+    session_data = pd.DataFrame([session_data])
+    session_data.columns = session_data.columns.str.lower()
+
+    results = pd.read_excel(current_app.config['RESULTS_EXCEL_FILE'])
+
+    results = pd.concat([results, session_data], ignore_index=True)
+    results.to_excel(current_app.config['RESULTS_EXCEL_FILE'], index=False)
+
+
     return (f"Session submitted", 200)
 
-@bp.route('/results', methods=['GET'])
+@bp.route('/quiz_results', methods=['GET'])
 def get_results():
     results = pd.read_excel(current_app.config['RESULTS_EXCEL_FILE'])
     results_html = results.to_html(header="true", index=False, na_rep='')
-    return (results_html, 200)
+    return render_template('data.jinja', title='Quiz Results', data_html=results_html)
 
-@bp.route('/master_list', methods=['GET'])
+@bp.route('/quiz_data', methods=['GET'])
 def get_master_list():
-    master_list = pd.read_excel(current_app.config['QUIZ_EXCEL_FILE'])
-    master_list_html = master_list.to_html(header="true", index=False, na_rep='')
-    return (master_list_html, 200)
-
-# === Utility Functions === #
+    quiz_data = pd.read_excel(current_app.config['QUIZ_EXCEL_FILE'])
+    quiz_data_html = quiz_data.to_html(header="true", index=False, na_rep='')
+    return render_template('data.jinja', title='Quiz Data', data_html=quiz_data_html)

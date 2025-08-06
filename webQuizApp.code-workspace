@@ -2,10 +2,6 @@
     "folders": [
         {
             "path": "."
-        },
-        {
-            "name": "quiz_server",
-            "path": "quiz_server"
         }
     ],
     "settings": {
@@ -25,6 +21,19 @@
     },
     "tasks": {
         "version": "2.0.0",
-        "tasks": []
+        "tasks": [
+            {
+                "label": "Debug Flask",
+                "type": "shell",
+                "command": "flask",
+                "args": [
+                    "--app",
+                    "quiz_server",
+                    "run",
+                    "--debug"
+                ],
+                "problemMatcher": []
+            }
+        ]
     }
 }
