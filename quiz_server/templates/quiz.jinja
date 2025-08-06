@@ -187,7 +187,7 @@
     function submitResults() {
         session_results = getResults();
 
-        fetch('/submit_session', {
+        fetch('{{ url_for('quiz.submit_session') }}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
