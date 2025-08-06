@@ -147,8 +147,8 @@
     }
 
     function updateAnswer(answerNumber) {
-        ELEMENTS[`answer${answerNumber}`].classList.remove("correct", "incorrect", "hidden");
         ELEMENTS[`answer${answerNumber}`].disabled = false;
+        ELEMENTS[`answer${answerNumber}`].classList.remove("correct", "incorrect", "hidden");
 
         if (!QUIZ_DATA[CURRENT_QUESTION - 1][`answer_${answerNumber}`]) {
             ELEMENTS[`answer${answerNumber}`].classList.add("hidden");
