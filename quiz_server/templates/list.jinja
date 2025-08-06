@@ -2,9 +2,16 @@
 
 {% block content %}
 <main>
-    {% for quiz in quiz_list %}
-    <a href="{{ url_for('quiz.get_quiz', quiz_name=quiz) }}">{{ quiz }}</a><br>
-    {% endfor %}
+    <ul>
+        {% for quiz in quiz_list %}
+        <li>
+            <a href="{{ url_for('quiz.get_quiz', quiz_name=quiz) }}">{{ quiz }}</a><br>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('quiz.get_data') }}">Get Data</a>
+    <a href="{{ url_for('quiz.get_results') }}">Get Results</a>
 </main>
 
 {% endblock %}

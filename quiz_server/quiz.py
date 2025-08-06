@@ -49,7 +49,7 @@ def get_results():
     return render_template('data.jinja', title='Quiz Results', data_html=results_html)
 
 @bp.route('/quiz_data', methods=['GET'])
-def get_master_list():
+def get_data():
     quiz_data = load_data(current_app.config['QUIZ_EXCEL_FILE'])
     quiz_data_html = quiz_data.to_html(header="true", index=False, na_rep='')
     return render_template('data.jinja', title='Quiz Data', data_html=quiz_data_html)
