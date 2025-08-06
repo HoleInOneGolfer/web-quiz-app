@@ -1,7 +1,7 @@
 {% extends "base.jinja" %}
 
 {% block content %}
-<main id="main">
+<main id="main" class="no-select box-sizing">
     <div id="quiz-container">
         <div id="info-container">
             <p>
@@ -148,6 +148,7 @@
 
     function updateAnswer(answerNumber) {
         ELEMENTS[`answer${answerNumber}`].classList.remove("correct", "incorrect", "hidden");
+        ELEMENTS[`answer${answerNumber}`].disabled = false;
 
         if (!QUIZ_DATA[CURRENT_QUESTION - 1][`answer_${answerNumber}`]) {
             ELEMENTS[`answer${answerNumber}`].classList.add("hidden");
@@ -156,8 +157,9 @@
 
     function updateAnswers() {
         answers = validAnswers(CURRENT_QUESTION);
+        correct_answers_len = correctAnswers(CURRENT_QUESTION).length;
 
-        TOTAL_ATTEMPTS = answers.length - 1;
+        TOTAL_ATTEMPTS = answers.length - correct_answers_len;
 
         updateAnswer(1);
         updateAnswer(2);
@@ -233,6 +235,13 @@
 
     }
 
+    function revealAnswers() {
+        correct_answers = correctAnswers(CURRENT_QUESTION);
+        for (let i = 0; i < correct_answers.length; i++) {
+            ELEMENTS[`answer${correct_answers[i]}`].classList.toggle("correct", true);
+        }
+    }
+
     // === BUTTON Functions === //
 
     function nextQuestion() {
@@ -268,12 +277,12 @@
     }
 
     function enableHint() {
-        ELEMENTS.hintText.classList.remove("invisible");
+        ELEMENTS.hintText.classList.add("visible");
         HINT_USED = true;
     }
 
     function disableHint() {
-        ELEMENTS.hintText.classList.add("invisible");
+        ELEMENTS.hintText.classList.remove("visible");
     }
 
     function setNextMode(mode = !ELEMENTS.nextButton.disabled) {
@@ -286,6 +295,7 @@
                 if (!ATTEMPTED_ANSWERS.includes(answerNumber)) {
                     ATTEMPTED_ANSWERS.push(answerNumber);
                     ATTEMPTS++;
+                    ELEMENTS[`answer${answerNumber}`].disabled = true;
                 }
                 CORRECT = checkAnswer(answerNumber, CURRENT_QUESTION);
                 if (CORRECT) {
@@ -301,10 +311,7 @@
         if (ATTEMPTS > TOTAL_ATTEMPTS - 1) {
             setNextMode(false);
 
-            correct_answers = correctAnswers(CURRENT_QUESTION);
-            for (let i = 0; i < correct_answers.length; i++) {
-                ELEMENTS[`answer${correct_answers[i]}`].classList.add("correct");
-            }
+            revealAnswers();
         }
 
         updateInfoText();

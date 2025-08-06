@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="box-sizing">
 
     <head>
         <meta charset="UTF-8" />
@@ -24,7 +24,7 @@
 
     <body>
         {% block header %}
-        <header>
+        <header class="no-select box-sizing">
             <img src="{{ url_for('static', filename='images/placeholders/icon.png') }}" alt="Quiz Icon"
                 id="header-icon">
             <h1>{{ title }}</h1>
@@ -34,8 +34,7 @@
         <main></main>
         {% endblock %}
         {% block footer %}
-        <footer>
-            <br>
+        <footer class="no-select box-sizing">
             <span>
                 Link to source code on
                 <a href=" https://github.com/HoleInOneGolfer/web-quiz-app" target="_blank">GitHub</a>

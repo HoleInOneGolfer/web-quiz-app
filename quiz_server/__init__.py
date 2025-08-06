@@ -26,4 +26,8 @@ def create_app(test_config=None):
 
     app.register_blueprint(quiz.bp)
 
+    from . import error
+
+    app.register_blueprint(error.bp)
+
     return app

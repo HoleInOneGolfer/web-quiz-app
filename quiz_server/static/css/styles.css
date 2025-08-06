@@ -57,28 +57,25 @@
 }
 
 /* Utility Classes */
+.no-select {
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.box-sizing {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .hidden {
 	display: none;
 }
 
-.invisible {
-	opacity: 0;
-}
-
-.correct {
-	color: var(--correct-color);
-	font-weight: bold;
-
-	border-color: var(--correct-color);
-	border-width: 0.25rem;
-}
-
-.incorrect {
-	color: var(--incorrect-color);
-	font-weight: bold;
-
-	border-color: var(--incorrect-color);
-	border-width: 0.25rem;
+.visible {
+	opacity: 1 !important;
+	transition: opacity 0.25s ease-in-out;
 }
 
 /* Basic Element Styles */
@@ -91,14 +88,6 @@ html {
 	text-align: center;
 	font-family: "Comic-Sans";
 
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-
 	color: var(--text-color);
 	background-color: var(--background-main);
 }
@@ -108,58 +97,80 @@ body {
 	padding: 0;
 	border: none;
 
-	height: 100vh;
-	width: 100vw;
+	max-width: 100vw;
+	min-height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
+	background-color: var(--background-main);
+}
+
+header {
+	img {
+		height: 5rem;
+	}
+
+	h1 {
+		margin-top: 0;
+	}
 }
 
 main {
 	margin: 0;
 	border: none;
 
+	width: 100%;
+
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: stretch;
+	justify-content: stretch;
+
+	flex-grow: 1;
 }
 
-h1 {
-	margin-top: 0;
+footer {
+	justify-content: center;
+	align-items: center;
+
+	background-color: var(--background-secondary);
+
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 }
 
 a {
 	color: var(--link-color);
 }
 
-button {
-		border-radius: 10rem;
-		padding-left: 1rem;
-
-		font-family: 'Comic-Sans';
-		font-size: 1rem;
+ul {
+	text-align: left;
 }
 
+button {
+	&:not(:disabled) {
+		cursor: pointer;
+		transition: background-color 0.25s ease-in-out;
 
-footer {
-	justify-content: center;
-	align-items: center;
+		&:hover {
+			filter: brightness(0.8);
+		}
+	}
 }
 
 /* Quiz Styles */
-
-#header-icon {
-	height: 5rem;
-}
 
 #quiz-container {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
 
-
-	width: 90%;
+	flex-grow: 1;
 }
 
 #question-text {
@@ -170,13 +181,14 @@ footer {
 }
 
 #hint-text {
-	transition: opacity 0.25s ease-in-out;
+	/* only fade in when the hint is shown */
+	opacity: 0;
 
 	font-size: 1.5rem;
-}
 
-#hint-text::before {
-	content: "💡 ";
+	&::before {
+		content: "💡 ";
+	}
 }
 
 #info-container {
@@ -223,6 +235,12 @@ footer {
 	flex-direction: row;
 	flex-wrap: wrap;
 
+	flex-grow: 2;
+
+	align-self: center;
+
+	width: 90%;
+
 	gap: 1rem;
 	padding: 1rem;
 
@@ -232,17 +250,37 @@ footer {
 		flex-basis: 45%;
 
 		text-align: left;
-		font-size: 1.25rem;
 
-		padding-top: 0.25rem;
-		padding-bottom: 1.5rem;
-	}
-
-	button::before {
-		content: counter(answer) ". ";
-		counter-increment: answer;
-
+		font-family: "Comic-Sans";
 		font-size: 1.5rem;
 		font-weight: bold;
+		line-height: 1.2;
+		letter-spacing: 0.15rem;
+		padding: 0.5rem;
+
+		border: 0.25rem solid;
+		border-color: var(--unselected-answer-color);
+		border-radius: 0.5rem;
+
+		background-color: var(--unselected-answer-color);
+		color: var(--text-color);
+		cursor: pointer;
+		transition: background-color 0.25s ease-in-out;
+
+		&::before {
+			content: counter(answer) ". ";
+			counter-increment: answer;
+
+			font-size: 2em;
+			font-weight: bold;
+		}
+
+		&.correct {
+			background-color: var(--correct-color);
+		}
+
+		&.incorrect {
+			background-color: var(--incorrect-color);
+		}
 	}
 }
