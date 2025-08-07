@@ -6,8 +6,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data'),
-        QUIZ_EXCEL_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'quiz.xlsx'),
-        RESULTS_EXCEL_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'results.xlsx'),
+        QUIZ_DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'quiz.csv'),
+        RESULTS_DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'results.csv'),
     )
 
     if test_config is None:
@@ -23,11 +23,9 @@ def create_app(test_config=None):
         pass
 
     from . import quiz
-
     app.register_blueprint(quiz.bp)
 
     from . import error
-
     app.register_blueprint(error.bp)
 
     return app

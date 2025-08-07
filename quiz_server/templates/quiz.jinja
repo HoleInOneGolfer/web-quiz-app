@@ -111,6 +111,7 @@
         QUESTION_ICON = QUIZ_DATA[CURRENT_QUESTION - 1].logo_image;
         if (QUESTION_ICON) {
             ELEMENTS.headerIcon.src = STATIC_URL + "images/" + QUESTION_ICON;
+            ELEMENTS.headerIcon.alt = QUIZ_NAME;
         }
         else {
             ELEMENTS.headerIcon.src = STATIC_URL + "images/placeholders/icon.png";
@@ -122,8 +123,6 @@
         QUESTION_BACKGROUND = QUIZ_DATA[CURRENT_QUESTION - 1].bg_image;
         if (QUESTION_BACKGROUND) {
             ELEMENTS.body.style.backgroundImage = `url('${STATIC_URL}images/${QUESTION_BACKGROUND}')`;
-            ELEMENTS.body.style.backgroundSize = "cover";
-            ELEMENTS.body.style.backgroundPosition = "center";
         }
         else {
             ELEMENTS.body.style.backgroundImage = "none";
@@ -159,7 +158,7 @@
         answers = validAnswers(CURRENT_QUESTION);
         correct_answers_len = correctAnswers(CURRENT_QUESTION).length;
 
-        TOTAL_ATTEMPTS = answers.length - correct_answers_len;
+        TOTAL_ATTEMPTS = Math.max(1, answers.length - correct_answers_len)
 
         updateAnswer(1);
         updateAnswer(2);
