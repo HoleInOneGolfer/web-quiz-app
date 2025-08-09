@@ -1,4 +1,4 @@
-![Logo](./quiz_server/static/images/placeholders/icon.png)
+![Logo](./quiz_server/static/images/icon.png)
 
 # Web Quiz App
 
