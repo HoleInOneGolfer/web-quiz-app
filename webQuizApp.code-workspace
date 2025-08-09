@@ -2,6 +2,9 @@
     "folders": [
         {
             "path": "."
+        },
+        {
+            "path": "./quiz_server",
         }
     ],
     "settings": {
@@ -9,10 +12,14 @@
             "**/__pycache__": true,
             "**/*.pyc": true,
             "**/.DS_Store": true,
+            "**/.git": true,
+            "**/.venv": true,
+            "**/instance": true,
+            "quiz_server": true
         },
-        "python.analysis.extraPaths": [
+        "python.autoComplete.extraPaths": [
             "./quiz_server"
-        ]
+        ],
     },
     "launch": {
         "version": "0.2.0",
@@ -21,19 +28,6 @@
     },
     "tasks": {
         "version": "2.0.0",
-        "tasks": [
-            {
-                "label": "Debug Flask",
-                "type": "shell",
-                "command": "flask",
-                "args": [
-                    "--app",
-                    "quiz_server",
-                    "run",
-                    "--debug"
-                ],
-                "problemMatcher": []
-            }
-        ]
+        "tasks": []
     }
 }
