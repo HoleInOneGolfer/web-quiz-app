@@ -17,7 +17,7 @@
 
         <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
 
-        <link rel="icon" href="{{ url_for('static', filename='images/placeholders/icon.png') }}" type="image/png">
+        <link rel="icon" href="{{ url_for('static', filename='images/icon.png') }}" type="image/png">
 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     </head>
@@ -25,8 +25,7 @@
     <body>
         {% block header %}
         <header class="no-select box-sizing">
-            <img src="{{ url_for('static', filename='images/placeholders/icon.png') }}" alt="Quiz Icon"
-                id="header-icon">
+            <img src="{{ url_for('static', filename='images/icon.png') }}" alt="Quiz Icon" id="header-icon">
             <h1>{{ title }}</h1>
         </header>
         {% endblock %}
@@ -41,13 +40,12 @@
             </span>
             <br>
             <span>
-                Copyright &copy; 2025
-                <a href="https://github.com/HoleInOneStudios" target="_blank">HoleInOneStudios</a>
+                Created by
+                <a href="https://github.com/HoleInOneGolfer" target="_blank">Benjamin Bowles</a>
             </span>
             <br>
             <span>
-                Created by
-                <a href="https://github.com/HoleInOneGolfer" target="_blank">Benjamin Bowles</a>
+                Copyright &copy; 2025
             </span>
         </footer>
         {% endblock %}

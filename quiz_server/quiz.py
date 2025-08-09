@@ -1,8 +1,6 @@
-from flask import Blueprint, current_app, render_template, request,abort
+from flask import Blueprint, current_app, render_template, request,abort, send_from_directory
 import pandas as pd
 import os
-
-from sympy import EX
 
 bp = Blueprint('quiz', __name__)
 

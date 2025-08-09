@@ -33,17 +33,17 @@
 
         <div id="controls-container">
             <button id="restart-button" onclick="restartQuiz()">
-                <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/restart.svg')}}" alt="Exit" />
+                <img src="{{ url_for('static', filename='./images/icon/svg/restart.svg')}}" alt="Exit" />
                 Restart
             </button>
 
             <button id="hint-button" onclick="enableHint()">
-                <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/hint.svg')}}" alt="Hint" />
+                <img src="{{ url_for('static', filename='./images/icon/svg/hint.svg')}}" alt="Hint" />
                 Hint
             </button>
 
             <button id="next-button" onclick="nextQuestion()">
-                <img src="{{ url_for('static', filename='./images/placeholders/icon/svg/next.svg')}}" alt="Next" />
+                <img src="{{ url_for('static', filename='./images/icon/svg/next.svg')}}" alt="Next" />
                 Next
             </button>
         </div>
@@ -114,7 +114,7 @@
             ELEMENTS.headerIcon.alt = QUIZ_NAME;
         }
         else {
-            ELEMENTS.headerIcon.src = STATIC_URL + "images/placeholders/icon.png";
+            ELEMENTS.headerIcon.src = STATIC_URL + "images/icon.png";
             ELEMENTS.headerIcon.alt = "Quiz Icon";
         }
     }
