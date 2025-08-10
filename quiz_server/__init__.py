@@ -4,13 +4,15 @@ from flask import Flask
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data'),
-        QUIZ_DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'quiz.csv'),
-        RESULTS_DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'results.csv'),
-    )
+
+    app.config['DATA_DIR'] = os.path.join(os.getcwd(), 'data')
+    app.config['QUIZ_DATA_FILE'] = os.path.join(app.config['DATA_DIR'], 'quiz.csv')
+    app.config['RESULTS_DATA_FILE'] = os.path.join(app.config['DATA_DIR'], 'results.csv')
 
     from . import quiz
     app.register_blueprint(quiz.bp)
+
+    app.add_url_rule('/', endpoint='quiz.list')
+
 
     return app

@@ -1,9 +1,9 @@
 [project]
 name = "quiz_server"
 version = "1.0.0"
-description = ""
+description = "A simple quiz application that allows users to create and take quizzes and track results in a spreadsheet."
 authors = [{ name = "Benjamin Bowles" }]
-dependencies = ["flask", "python-dotenv", "pandas"]
+dependencies = ["flask", "pandas"]
 
 
 [build-system]

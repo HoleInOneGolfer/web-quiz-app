@@ -1,0 +1,14 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+
+<main style="overflow-x: scroll; align-items: normal;">
+    {% for item in html %}
+    <h2>{{ item }}</h2>
+    <div style="text-wrap: nowrap; text-align: left;">
+        {{ html[item] | safe }}
+    </div>
+    {% endfor %}
+</main>
+
+{% endblock %}
