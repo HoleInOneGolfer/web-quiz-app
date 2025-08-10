@@ -41,10 +41,7 @@ def get_quiz(quiz_name):
     quiz_data = quiz_data[quiz_data['quiz_name'] == quiz_name]
     quiz_data = quiz_data.to_dict(orient='records')
 
-    if (len(quiz_data) > 0):
-        return render_template('quiz.jinja', title=quiz_name, quiz_name=quiz_name, quiz_data=quiz_data)
-    else:
-        abort(404)
+    return render_template('quiz.jinja', title=quiz_name, quiz_name=quiz_name, quiz_data=quiz_data)
 
 @bp.route('/submit_session', methods=['POST'])
 def submit_session():
