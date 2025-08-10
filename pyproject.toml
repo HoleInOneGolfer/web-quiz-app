@@ -1,7 +1,7 @@
 [project]
 name = "quiz_server"
 version = "1.0.0"
-description = "A Flask-based web application for managing and serving quizzes."
+description = ""
 authors = [{ name = "Benjamin Bowles", email = "benjamin.d.bowles@gmail.com" }]
 dependencies = ["flask", "python-dotenv", "pandas"]
 
