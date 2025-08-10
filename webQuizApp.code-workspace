@@ -16,10 +16,7 @@
             "**/.venv": true,
             "**/instance": true,
             "quiz_server": true
-        },
-        "python.autoComplete.extraPaths": [
-            "./quiz_server"
-        ],
+        }
     },
     "launch": {
         "version": "0.2.0",
