@@ -2,9 +2,6 @@
     "folders": [
         {
             "path": "."
-        },
-        {
-            "path": "./quiz_server",
         }
     ],
     "settings": {
@@ -15,7 +12,6 @@
             "**/.git": true,
             "**/.venv": true,
             "**/instance": true,
-            "quiz_server": true
         }
     },
     "launch": {
