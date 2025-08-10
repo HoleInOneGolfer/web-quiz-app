@@ -7,7 +7,6 @@ from .data import load_data, save_data
 bp = Blueprint('quiz', __name__)
 
 # === Endpoints === #
-
 @bp.route('/data/<path:filename>', methods=['GET'])
 def data(filename):
     return send_from_directory(current_app.config['DATA_DIR'], filename)

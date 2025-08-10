@@ -9,6 +9,8 @@ def create_app():
     app.config['QUIZ_DATA_FILE'] = os.path.join(app.config['DATA_DIR'], 'quiz.csv')
     app.config['RESULTS_DATA_FILE'] = os.path.join(app.config['DATA_DIR'], 'results.csv')
 
+    os.makedirs(app.config['DATA_DIR'], exist_ok=True)
+
     from . import quiz
     app.register_blueprint(quiz.bp)
 
