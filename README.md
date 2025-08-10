@@ -4,6 +4,12 @@
 
 Quiz Server - A simple quiz application that allows users to create and take quizzes and track results in a spreadsheet.
 
+## To-Do
+
+- [ ] Add audio (music and sound effects)
+- [ ] Add quiz timeout refresh
+- [ ] ...
+
 ## Development Setup
 
 1. Clone the repository
