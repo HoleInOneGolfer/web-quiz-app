@@ -2,8 +2,9 @@
 name = "quiz_server"
 version = "1.0.0"
 description = ""
-authors = [{ name = "Benjamin Bowles", email = "benjamin.d.bowles@gmail.com" }]
+authors = [{ name = "Benjamin Bowles" }]
 dependencies = ["flask", "python-dotenv", "pandas"]
+
 
 [build-system]
 requires = ["flit_core<4"]
