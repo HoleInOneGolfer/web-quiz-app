@@ -1,8 +1,9 @@
 name: Release Python Package
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -35,7 +36,7 @@ jobs:
       - build
     permissions:
       id-token: write
-      
+
     steps:
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4
