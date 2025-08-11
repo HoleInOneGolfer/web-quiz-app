@@ -5,6 +5,7 @@ description = "A simple quiz application that allows users to create and take qu
 authors = [{ name = "Benjamin Bowles" }]
 dependencies = ["flask", "pandas", "python-dotenv"]
 
+
 [build-system]
 requires = ["flit_core<4"]
 build-backend = "flit_core.buildapi"
