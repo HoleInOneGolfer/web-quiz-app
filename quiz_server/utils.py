@@ -1,6 +1,6 @@
 import pandas as pd
 
-def load_data(file_path):
+def load_csv(file_path):
     try:
         return pd.read_csv(file_path)
     except FileNotFoundError:
@@ -8,10 +8,10 @@ def load_data(file_path):
     except pd.errors.EmptyDataError:
         return pd.DataFrame()
 
-def save_data(df, file_path):
+def save_csv(df, file_path):
     df.columns = df.columns.str.lower()
 
-    file_df = load_data(file_path)
+    file_df = load_csv(file_path)
 
     if file_df.empty:
         file_df = pd.DataFrame(columns=df.columns)
