@@ -9,6 +9,7 @@ Quiz Server - A simple quiz application that allows users to create and take qui
 - [ ] Quiz start and end screens
 - [ ] Refactor code
 - [ ] Add error handling
+- [ ] Customize quiz appearance
 
 ## Development Setup
 
