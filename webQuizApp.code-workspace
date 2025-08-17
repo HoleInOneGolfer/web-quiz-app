@@ -16,6 +16,9 @@
         "files.associations": {
             "*.html": "jinja-html",
             "*.jinja": "jinja-html",
+        },
+        "material-icon-theme.files.associations": {
+            "*.html": "html",
         }
     },
     "launch": {
