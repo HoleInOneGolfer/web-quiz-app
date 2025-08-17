@@ -1,10 +1,1 @@
 date,quiz_name,total_score,total_questions,question_1_correct,question_1_hint_used,question_1_attempts,question_1_attempted_answers,question_2_correct,question_2_hint_used,question_2_attempts,question_2_attempted_answers,question_3_correct,question_3_hint_used,question_3_attempts,question_3_attempted_answers,question_4_correct,question_4_hint_used,question_4_attempts,question_4_attempted_answers
-2025-08-06T21:28:43.162Z,Demo,4,4,True,False,2,"4, 2",True,False,1,2,True,False,1,2,True,False,1,2
-2025-08-06T23:51:06.515Z,Demo,4,4,True,False,1,2,True,False,2,"3, 2",True,False,1,2,True,False,1,2
-2025-08-06T23:52:25.671Z,Demo,4,4,True,False,1,2,True,False,1,2,True,False,1,2,True,False,1,2
-2025-08-06T23:59:16.307Z,Demo,4,4,True,False,1,2,True,False,1,2,True,False,1,2,True,False,1,2
-2025-08-09T22:39:26.500Z,Demo,4,4,True,False,1,2,True,False,2,"3, 2",True,False,1,2,True,False,1,2
-2025-08-09T23:05:39.493Z,Demo,4,4,True,False,1,2,True,False,1,2,True,False,1,2,True,False,1,2
-2025-08-10T16:18:05.731Z,Demo,4,4,True,False,2,"4, 2",True,False,1,2,True,False,1,2,True,False,1,2
-2025-08-10T18:58:08.427Z,Demo,4,4,True,False,1,2,True,False,1,2,True,False,1,2,True,False,1,2
-2025-08-10T19:35:49.340Z,Demo,4,4,True,False,1,2,True,False,1,2,True,False,1,2,True,False,1,2
