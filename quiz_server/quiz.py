@@ -1,26 +1,8 @@
 from flask import Blueprint, current_app, render_template, request, send_from_directory
+from .utils import load_data, save_data
 import pandas as pd
 
 bp = Blueprint('quiz', __name__)
-
-def load_data(file_path):
-    try:
-        return pd.read_csv(file_path)
-    except FileNotFoundError:
-        return pd.DataFrame()
-    except pd.errors.EmptyDataError:
-        return pd.DataFrame()
-
-def save_data(df, file_path):
-    df.columns = df.columns.str.lower()
-
-    file_df = load_data(file_path)
-
-    if file_df.empty:
-        file_df = pd.DataFrame(columns=df.columns)
-
-    file_df = pd.concat([file_df, df], ignore_index=True)
-    file_df.to_csv(file_path, index=False)
 
 @bp.route('/data/<path:filename>', methods=['GET'])
 def data(filename):
@@ -30,7 +12,7 @@ def data(filename):
 def index():
     quiz_data = load_data(current_app.config['QUIZ_DATA_FILE'])
     quiz_list = pd.unique(quiz_data['quiz_name']).tolist()
-    return render_template('index.jinja', title="Quiz List", quiz_list=quiz_list)
+    return render_template('index.html', title="Quiz List", quiz_list=quiz_list)
 
 @bp.route('/quiz/<quiz_name>', methods=['GET'])
 def quiz(quiz_name):
@@ -38,7 +20,7 @@ def quiz(quiz_name):
     quiz_data = quiz_data[quiz_data['quiz_name'] == quiz_name]
     quiz_data = quiz_data.to_dict(orient='records')
 
-    return render_template('quiz.jinja', title=quiz_name, quiz_name=quiz_name, quiz_data=quiz_data)
+    return render_template('quiz.html', title=quiz_name, quiz_name=quiz_name, quiz_data=quiz_data)
 
 @bp.route('/submit', methods=['POST'])
 def submit():
@@ -62,4 +44,4 @@ def info():
         'Quizzes': quizzes_html
     }
 
-    return render_template('info.jinja', title='Info', html=html)
+    return render_template('info.html', title='Info', html=html)
