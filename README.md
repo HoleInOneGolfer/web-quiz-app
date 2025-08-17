@@ -8,7 +8,9 @@ Quiz Server - A simple quiz application that allows users to create and take qui
 
 - [ ] Add audio (music and sound effects)
 - [ ] Add quiz timeout refresh
-- [ ] ...
+- [ ] Quiz start and end screens
+- [ ] Refactor code
+- [ ] Add error handling
 
 ## Development Setup
 

@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from .quiz import bp
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -12,11 +13,9 @@ def create_app():
     os.makedirs(app.config['DATA_DIR'], exist_ok=True)
 
     if not os.path.exists(app.config['QUIZ_DATA_FILE']):
-        with open(app.config['QUIZ_DATA_FILE'], 'w') as f:
+        with open(app.config['QUIZ_DATA_FILE'], 'w', encoding='utf-8') as f:
             f.write('quiz_name,question_number,question_text,answer_1,answer_2,answer_3,answer_4,answer_1_correct,answer_2_correct,answer_3_correct,answer_4_correct,hint,hint_image,bg_image,logo_image\n')
 
-    from . import quiz
-    app.register_blueprint(quiz.bp)
-
+    app.register_blueprint(bp)
 
     return app
