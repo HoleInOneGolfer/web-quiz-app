@@ -12,6 +12,10 @@
             "**/.git": true,
             "**/.venv": true,
             "**/instance": true,
+        },
+        "files.associations": {
+            "*.html": "jinja-html",
+            "*.jinja": "jinja-html",
         }
     },
     "launch": {
