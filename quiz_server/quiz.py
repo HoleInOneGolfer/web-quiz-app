@@ -3,6 +3,20 @@ import pandas as pd
 
 bp = Blueprint('quiz', __name__)
 
+@bp.route('/list', methods=['GET'])
+def list():
+    quiz_data = load_csv(current_app.config['QUIZ_DATA_FILE'])
+    quiz_list = pd.unique(quiz_data['quiz_name']).tolist()
+    return render_template('index.html', title="Quiz List", quiz_list=quiz_list)
+
+@bp.route('/<quiz_name>', methods=['GET'])
+def quiz(quiz_name):
+    quiz_data = load_csv(current_app.config['QUIZ_DATA_FILE'])
+    quiz_data = quiz_data[quiz_data['quiz_name'] == quiz_name]
+    quiz_data = quiz_data.to_dict(orient='records')
+
+    return render_template('quiz.html', title=quiz_name, quiz_name=quiz_name, quiz_data=quiz_data)
+
 def load_csv(file_path):
     try:
         return pd.read_csv(file_path)
@@ -25,20 +39,6 @@ def save_csv(df, file_path):
 @bp.route('/data/<path:filename>', methods=['GET'])
 def data(filename):
     return send_from_directory(current_app.config['DATA_DIR'], filename)
-
-@bp.route('/', methods=['GET'])
-def index():
-    quiz_data = load_csv(current_app.config['QUIZ_DATA_FILE'])
-    quiz_list = pd.unique(quiz_data['quiz_name']).tolist()
-    return render_template('index.html', title="Quiz List", quiz_list=quiz_list)
-
-@bp.route('/quiz/<quiz_name>', methods=['GET'])
-def quiz(quiz_name):
-    quiz_data = load_csv(current_app.config['QUIZ_DATA_FILE'])
-    quiz_data = quiz_data[quiz_data['quiz_name'] == quiz_name]
-    quiz_data = quiz_data.to_dict(orient='records')
-
-    return render_template('quiz.html', title=quiz_name, quiz_name=quiz_name, quiz_data=quiz_data)
 
 @bp.route('/submit', methods=['POST'])
 def submit():
